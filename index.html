@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div{
+      box-shadow: black;
+      padding: 30px;
+      width: 90%;
+      margin: auto;
+      line-break: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <div id="passo1">  </div>
+  <div id="passo2">  </div>
+  <div id="passo3">  </div>
+  <div id="oauth_signature">  </div>
+</body>
+</html>
+
+<script>
+
+  url = `https://learn.eltngl.com/lti/v1/launch`;
+  key = `dcfab8be8d6c1f8d55580fce1ccc29`;
+  secret = `abbab91ee6c02bb43ae9a4090a31e6edcbaa4c8e`;
+  isbn = '9798214379265';
+
+  params = {
+    context_id: 1,
+    context_title: 'Test Course',
+    custom_isbn: isbn,
+    lis_person_name_full: 'Henrique',
+    lti_message_type: 'basic-lti-launch-request',
+    lti_version: 'LTI-1p0',
+    oauth_callback: 'about:blank',
+    oauth_consumer_key: key,
+    oauth_nonce: 'eccf128b-4bbc-431f-b90d-2c198673b469',
+    oauth_signature: null,
+    oauth_signature_method: 'HMAC_SHA1',
+    oauth_timestamp: Date.now(),
+    oauth_version: '1.0',
+    resource_link_id: url,
+    roles: 'Student',
+    user_id: '2',
+  }
+
+  async function getOauthSignature(){
+    
+    const response = await fetch(`http://localhost:3000/encodeUri`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({url, key, secret, isbn, params})});
+    if (!response.ok) {
+      throw new Error('Erro ao buscar dados');
+    }
+    const data = await response.json();
+    return data;
+  
+  }
+
+  getOauthSignature()
+  .then(data => {
+      console.log('data', data);
+
+      params.oauth_signature = data.oauth_signature
+
+      document.getElementById("passo1").innerHTML = data.queryString;
+      document.getElementById("passo2").innerHTML = data.queryString2;
+      document.getElementById("passo3").innerHTML = data.queryString3;
+      document.getElementById("oauth_signature").innerHTML = data.oauth_signature;
+
+      console.log("params", params);
+
+      //fetchRequest();
+
+    })
+    .catch(error => {
+      console.error('Ocorreu um erro:', error);
+    });
+
+  function fetchRequest(){
+    fetch(`https://learn.eltngl.com/lti/v1/test`, {
+			method: "POST",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify(params)})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Não foi possível obter os dados do usuário.');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log('data', data);
+			})
+			.catch(error => {
+				console.error('Ocorreu um erro:', error);
+			});
+  }
+
+</script>
