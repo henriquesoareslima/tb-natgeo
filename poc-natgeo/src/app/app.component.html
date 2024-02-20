@@ -1,0 +1,74 @@
+<div class="content" role="main">
+
+  <h2>POC TB-NATGEO</h2>
+  <div class="card-container">
+
+    <div style="width: 80%;">
+      <div class="field">
+        <p><label>Ambiente</label></p>
+        <button type="button" name="url" class="btn btn-light" (click)="setEnvironment('prod');" style="margin-right: 15px;">
+          <img *ngIf="env == 'prod'" src="assets/radio-button-svgrepo-com.svg">
+          <img *ngIf="env != 'prod'" src="assets/radio-button-off-outline-svgrepo-com.svg">
+          Produção</button>
+        <button type="button" name="url" class="btn btn-light" (click)="setEnvironment('test');">
+          <img *ngIf="env == 'test'" src="assets/radio-button-svgrepo-com.svg">
+          <img *ngIf="env != 'test'" src="assets/radio-button-off-outline-svgrepo-com.svg">
+          Teste</button>
+      </div>
+      <div class="field">
+        <label class="form-label">URL</label>
+        <input type="text" name="url" class="form-control" [(ngModel)]="url">
+      </div>
+      <div class="field">
+        <label class="form-label">Secret</label>
+        <input type="text" name="secret" class="form-control" [(ngModel)]="secret">
+      </div>
+      <div class="field">
+        <label class="form-label">Key</label>
+        <input type="text" name="key" class="form-control" [(ngModel)]="key">
+      </div>
+      <div class="field">
+        <label class="form-label">ISBN</label>
+        <input type="text" name="isbn" class="form-control" [(ngModel)]="isbn">
+      </div>
+      <div class="field">
+        <button type="button" class="btn btn-light" (click)="getQueryString();"> Enviar </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-container">
+    <div *ngIf="oauthSignature">
+      <h3 class="form-label">Oauth Signature</h3>
+      <div class="terminal">
+        {{ oauthSignature }}
+      </div>
+    </div>
+    <div *ngIf="queryString">
+      <h3 class="form-label">Query String 1</h3>
+      <div class="terminal">
+        {{ queryString }}
+      </div>
+    </div>
+    <div *ngIf="queryString2">
+      <h3 class="form-label">Query String 2</h3>
+      <div class="terminal">
+        {{ queryString2 }}
+      </div>
+    </div>
+    <div *ngIf="queryString3">
+      <h3 class="form-label">Query String 3</h3>
+      <div class="terminal">
+        {{ queryString3 }}
+      </div>
+    </div>
+  </div>
+  <div *ngIf="data">
+    <h3 class="form-label">Resposta</h3>
+    <h3 class="form-label">Status: {{status}}</h3>
+    <div class="card-container" [innerHTML]="data"></div>
+  </div>
+
+
+
+
+<router-outlet></router-outlet>

@@ -19,15 +19,16 @@
   <div id="passo2">  </div>
   <div id="passo3">  </div>
   <div id="oauth_signature">  </div>
+  <div id="data">  </div>
 </body>
 </html>
 
 <script>
 
-  url = `https://learn.eltngl.com/lti/v1/launch`;
-  key = `dcfab8be8d6c1f8d55580fce1ccc29`;
-  secret = `abbab91ee6c02bb43ae9a4090a31e6edcbaa4c8e`;
-  isbn = '9798214379265';
+  url = `https://learn.eltngl.com/lti/v1/test`;
+  key = `f34de744c349d39c8d5feb3fcba551`;
+  secret = `f9d5a1497c3f8ea5da20b7d590c27a3e96a487d1`;
+  isbn = '9780357784624';
 
   params = {
     context_id: 1,
@@ -38,7 +39,7 @@
     lti_version: 'LTI-1p0',
     oauth_callback: 'about:blank',
     oauth_consumer_key: key,
-    oauth_nonce: 'eccf128b-4bbc-431f-b90d-2c198673b469',
+    oauth_nonce: null,
     oauth_signature: null,
     oauth_signature_method: 'HMAC_SHA1',
     oauth_timestamp: Date.now(),
@@ -73,9 +74,8 @@
       document.getElementById("passo1").innerHTML = data.queryString;
       document.getElementById("passo2").innerHTML = data.queryString2;
       document.getElementById("passo3").innerHTML = data.queryString3;
+      document.getElementById("data").innerHTML = data.data;
       document.getElementById("oauth_signature").innerHTML = data.oauth_signature;
-
-      console.log("params", params);
 
       //fetchRequest();
 
@@ -84,7 +84,7 @@
       console.error('Ocorreu um erro:', error);
     });
 
-  function fetchRequest(){
+  /*function fetchRequest(){
     fetch(`https://learn.eltngl.com/lti/v1/test`, {
 			method: "POST",
 			headers: {
@@ -103,6 +103,6 @@
 			.catch(error => {
 				console.error('Ocorreu um erro:', error);
 			});
-  }
+  }*/
 
 </script>
